@@ -61,6 +61,7 @@ export const getRouter = () => {
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
+    basepath: "/qiangs_my_creative_hub",
   });
 
   return router;
