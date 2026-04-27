@@ -11,6 +11,9 @@ const productionBase = githubRepository ? `/${githubRepository}/` : "/";
 
 export default defineConfig({
   cloudflare: false,
+  vite: {
+    base: productionBase,
+  },
   tanstackStart: {
     router: {
       basepath: productionBase,
@@ -20,5 +23,4 @@ export default defineConfig({
       crawlLinks: true,
     },
   },
-  base: process.env.NODE_ENV === "production" ? productionBase : "/",
 });
