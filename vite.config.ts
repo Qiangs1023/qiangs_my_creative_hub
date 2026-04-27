@@ -7,5 +7,5 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  base: import.meta.env.PROD ? "/qiangs_my_creative_hub/" : "/",
+  base: "/qiangs_my_creative_hub/",
 });
