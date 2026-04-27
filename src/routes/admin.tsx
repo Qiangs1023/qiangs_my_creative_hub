@@ -22,7 +22,7 @@ const navItems = [
 ];
 
 function AdminLayout() {
-  const { user, isAdmin, loading, signOut } = useAuth();
+  const { user, isAdmin, configured, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,6 +37,20 @@ function AdminLayout() {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
         加载中…
+      </div>
+    );
+  }
+
+  if (!configured) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
+        <h1 className="font-display text-3xl">后台未启用</h1>
+        <p className="max-w-md text-sm text-muted-foreground">
+          当前 GitHub Pages 版本未配置 Supabase 环境变量，所以后台与登录功能不可用。
+        </p>
+        <Link to="/" className="text-sm text-primary hover:underline">
+          返回首页 →
+        </Link>
       </div>
     );
   }

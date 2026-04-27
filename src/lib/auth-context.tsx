@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabaseClient, isSupabaseConfigured } from "@/integrations/supabase/client";
 
 type AuthCtx = {
   user: User | null;
   session: Session | null;
   isAdmin: boolean;
+  configured: boolean;
   loading: boolean;
   signOut: () => Promise<void>;
 };
@@ -14,6 +15,7 @@ const Ctx = createContext<AuthCtx>({
   user: null,
   session: null,
   isAdmin: false,
+  configured: false,
   loading: true,
   signOut: async () => {},
 });
@@ -25,8 +27,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const client = getSupabaseClient();
+    if (!client) {
+      setLoading(false);
+      return;
+    }
+
     // Subscribe FIRST, then check session
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+    const { data: sub } = client.auth.onAuthStateChange((_event, s) => {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
@@ -39,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
+    client.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) void checkAdmin(s.user.id);
@@ -52,7 +60,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function checkAdmin(userId: string) {
-    const { data } = await supabase
+    const client = getSupabaseClient();
+    if (!client) return;
+
+    const { data } = await client
       .from("user_roles")
       .select("role")
       .eq("user_id", userId)
@@ -62,11 +73,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
-    await supabase.auth.signOut();
+    const client = getSupabaseClient();
+    if (!client) return;
+    await client.auth.signOut();
   }
 
   return (
-    <Ctx.Provider value={{ user, session, isAdmin, loading, signOut }}>{children}</Ctx.Provider>
+    <Ctx.Provider
+      value={{ user, session, isAdmin, configured: isSupabaseConfigured, loading, signOut }}
+    >
+      {children}
+    </Ctx.Provider>
   );
 }
 

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabaseClient } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -22,7 +22,7 @@ const schema = z.object({
 });
 
 function AuthPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, configured } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -37,6 +37,11 @@ function AuthPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      toast.error("当前静态站点未配置登录服务");
+      return;
+    }
     const parsed = schema.safeParse({ email, password });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? "输入有误");
@@ -69,6 +74,11 @@ function AuthPage() {
   }
 
   async function handleGoogle() {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      toast.error("当前静态站点未配置登录服务");
+      return;
+    }
     setBusy(true);
     try {
       await supabase.auth.signInWithOAuth({
@@ -95,6 +105,13 @@ function AuthPage() {
             {mode === "signin" ? "登录以查看你的课程与进度。" : "注册一个账号，加入这里。"}
           </p>
 
+          {!configured && (
+            <div className="mt-6 rounded-lg border border-hairline bg-background/70 p-4 text-sm text-muted-foreground">
+              当前 GitHub Pages 版本未配置 Supabase 登录环境变量，所以公开页面可正常访问，
+              但登录和后台功能暂不可用。
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div>
               <label className="mb-1.5 block text-xs font-medium text-muted-foreground">邮箱</label>
@@ -120,7 +137,7 @@ function AuthPage() {
             </div>
             <button
               type="submit"
-              disabled={busy}
+              disabled={busy || !configured}
               className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {busy ? "处理中…" : mode === "signin" ? "登录" : "注册"}
@@ -135,7 +152,7 @@ function AuthPage() {
 
           <button
             onClick={handleGoogle}
-            disabled={busy}
+            disabled={busy || !configured}
             className="w-full rounded-lg border border-hairline bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-surface disabled:opacity-50"
           >
             使用 Google 继续
