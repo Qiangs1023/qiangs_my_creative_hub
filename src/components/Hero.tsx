@@ -37,7 +37,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground"
           >
-            我是林知远 — 独立开发者、内容创作者。
+            我是数字旷野 — 独立开发者、内容创作者。
             过去三年，我把一个人的工作室做成了 6 位数年收入。这里记录我所做、所写、所教的一切。
           </motion.p>
 
@@ -92,7 +92,7 @@ export function Hero() {
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-hairline shadow-card">
             <img
               src={portrait}
-              alt="林知远的肖像照片"
+              alt="数字旷野的肖像照片"
               width={896}
               height={1152}
               className="h-full w-full object-cover grayscale-[15%]"

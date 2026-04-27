@@ -6,13 +6,13 @@ import { Footer } from "@/components/Footer";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — 关于林知远" },
+      { title: "About — 关于数字旷野" },
       {
         name: "description",
         content:
-          "我是林知远 — 2019 年从大厂离职，一个人做产品、写文章、录视频。这里是我的故事，以及如何与我联系。",
+          "我是数字旷野 — 2019 年从大厂离职，一个人做产品、写文章、录视频。这里是我的故事，以及如何与我联系。",
       },
-      { property: "og:title", content: "About — 关于林知远" },
+      { property: "og:title", content: "About — 关于数字旷野" },
       {
         property: "og:description",
         content: "一个人，一台电脑，一段还在继续的旅程。",

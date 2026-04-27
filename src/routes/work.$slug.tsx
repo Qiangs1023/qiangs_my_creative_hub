@@ -16,9 +16,9 @@ export const Route = createFileRoute("/work/$slug")({
     const m = loaderData.meta;
     return {
       meta: [
-        { title: `${m.title} — Work · 林知远` },
+        { title: `${m.title} — Work · 数字旷野` },
         { name: "description", content: m.excerpt ?? "" },
-        { property: "og:title", content: `${m.title} — Work · 林知远` },
+        { property: "og:title", content: `${m.title} — Work · 数字旷野` },
         { property: "og:description", content: m.excerpt ?? "" },
       ],
     };

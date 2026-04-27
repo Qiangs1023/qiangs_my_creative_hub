@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth-context";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "管理后台 — 林知远" },
+      { title: "管理后台 — 数字旷野" },
       { name: "robots", content: "noindex" },
     ],
   }),

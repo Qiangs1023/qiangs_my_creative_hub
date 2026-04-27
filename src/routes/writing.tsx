@@ -6,13 +6,13 @@ import { Footer } from "@/components/Footer";
 export const Route = createFileRoute("/writing")({
   head: () => ({
     meta: [
-      { title: "Writing — 林知远的文章档案" },
+      { title: "Writing — 数字旷野的文章档案" },
       {
         name: "description",
         content:
           "关于独立工作、产品设计、TypeScript、和如何在不焦虑的前提下生活。每两周一篇。",
       },
-      { property: "og:title", content: "Writing — 林知远的文章档案" },
+      { property: "og:title", content: "Writing — 数字旷野的文章档案" },
       {
         property: "og:description",
         content: "我想清楚的事 —— 48 篇长文，持续更新。",

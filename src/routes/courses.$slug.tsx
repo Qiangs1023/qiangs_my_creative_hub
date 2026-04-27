@@ -15,9 +15,9 @@ export const Route = createFileRoute("/courses/$slug")({
     const m = loaderData.meta;
     return {
       meta: [
-        { title: `${m.title} — Courses · 林知远` },
+        { title: `${m.title} — Courses · 数字旷野` },
         { name: "description", content: m.excerpt ?? "" },
-        { property: "og:title", content: `${m.title} — Courses · 林知远` },
+        { property: "og:title", content: `${m.title} — Courses · 数字旷野` },
         { property: "og:description", content: m.excerpt ?? "" },
       ],
     };

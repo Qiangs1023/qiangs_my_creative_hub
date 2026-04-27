@@ -1,14 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { SectionHeader } from "./SectionHeader";
-import { fetchWork, type WorkRow } from "@/lib/db-content";
+import { workEntries } from "@/lib/content";
 import { resolveCover } from "@/lib/covers";
 
 export function Work({ showAction = true }: { showAction?: boolean } = {}) {
-  const [items, setItems] = useState<WorkRow[]>([]);
-  useEffect(() => {
-    fetchWork().then(setItems).catch(() => setItems([]));
-  }, []);
+  const items = workEntries;
 
   return (
     <section id="work" className="relative py-24 md:py-32">
@@ -29,18 +25,18 @@ export function Work({ showAction = true }: { showAction?: boolean } = {}) {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {items.map((p, i) => {
-            const img = p.cover_url?.startsWith("http") ? p.cover_url : resolveCover(p.cover_url ?? undefined);
-            const tag = p.tags?.[p.tags.length - 1];
+            const img = p.meta.cover?.startsWith("http") ? p.meta.cover : resolveCover(p.meta.cover ?? undefined);
+            const tag = p.meta.tag;
             return (
               <Link
-                key={p.slug}
+                key={p.meta.slug}
                 to="/work/$slug"
-                params={{ slug: p.slug }}
+                params={{ slug: p.meta.slug }}
                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-primary/40"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   {img && (
-                    <img src={img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={img} alt={p.meta.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
                   <div className="absolute left-3 top-3 rounded-full border border-hairline bg-background/70 px-2.5 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur">
@@ -48,11 +44,11 @@ export function Work({ showAction = true }: { showAction?: boolean } = {}) {
                   </div>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-2xl font-normal text-foreground">{p.title}</h3>
-                  {p.excerpt && <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{p.excerpt}</p>}
-                  {p.tags && p.tags.length > 0 && (
+                  <h3 className="font-display text-2xl font-normal text-foreground">{p.meta.title}</h3>
+                  {p.meta.excerpt && <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{p.meta.excerpt}</p>}
+                  {p.meta.stack && p.meta.stack.length > 0 && (
                     <div className="mt-5 flex flex-wrap gap-1.5 font-mono text-[10px] text-muted-foreground">
-                      {p.tags.slice(0, 4).map((s) => (
+                      {p.meta.stack.slice(0, 4).map((s: string) => (
                         <span key={s} className="rounded border border-hairline px-2 py-0.5">{s}</span>
                       ))}
                     </div>

@@ -8,7 +8,7 @@ import { z } from "zod";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "登录 / 注册 — 林知远" },
+      { title: "登录 / 注册 — 数字旷野" },
       { name: "description", content: "登录或注册以解锁课程、追踪学习进度。" },
       { name: "robots", content: "noindex" },
     ],

@@ -33,7 +33,7 @@ export function Nav() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 font-mono text-sm">
           <span className="inline-block h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_var(--color-primary)]" />
-          <span className="text-foreground">林知远</span>
+          <span className="text-foreground">数字旷野</span>
           <span className="text-muted-foreground">/ indie</span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">

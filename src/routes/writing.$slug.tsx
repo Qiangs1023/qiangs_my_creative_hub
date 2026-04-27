@@ -21,9 +21,9 @@ export const Route = createFileRoute("/writing/$slug")({
     const m = loaderData.meta;
     return {
       meta: [
-        { title: `${m.title} — 林知远` },
+        { title: `${m.title} — 数字旷野` },
         { name: "description", content: m.excerpt ?? "" },
-        { property: "og:title", content: `${m.title} — 林知远` },
+        { property: "og:title", content: `${m.title} — 数字旷野` },
         { property: "og:description", content: m.excerpt ?? "" },
         { property: "article:published_time", content: m.date ?? "" },
       ],
@@ -53,7 +53,7 @@ function WritingDetail() {
     <main className="relative min-h-screen pt-20">
       <Nav />
 
-      <article className="mx-auto max-w-2xl px-6 py-16 md:py-24">
+      <article className="mx-auto max-w-3xl px-6 py-16 md:py-24">
         <Link
           to="/writing"
           className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
@@ -61,11 +61,17 @@ function WritingDetail() {
           ← Writing
         </Link>
 
-        <header className="mt-10">
-          <div className="mb-5 flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
-            <span>{formatDate(meta.date)}</span>
+        <header className="mt-8 rounded-[2rem] border border-hairline bg-surface/40 p-8 md:p-10">
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
+            <span className="text-primary">Essay</span>
             <span className="h-px w-6 bg-hairline" />
-            {meta.tag && <span className="text-primary">{meta.tag}</span>}
+            {meta.tag && <span>{meta.tag}</span>}
+            {meta.date && (
+              <>
+                <span className="h-px w-6 bg-hairline" />
+                <span>{formatDate(meta.date)}</span>
+              </>
+            )}
             {meta.readTime && (
               <>
                 <span className="h-px w-6 bg-hairline" />
@@ -73,19 +79,54 @@ function WritingDetail() {
               </>
             )}
           </div>
-          <h1 className="font-display text-balance text-4xl font-light leading-[1.1] tracking-tight md:text-5xl">
+
+          <h1 className="mt-6 font-display text-balance text-4xl font-light leading-[1.05] tracking-tight md:text-6xl">
             {meta.title}
           </h1>
+
           {meta.excerpt && (
-            <p className="mt-6 border-l-2 border-primary/40 pl-4 text-base italic leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
               {meta.excerpt}
             </p>
           )}
+
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/writing"
+              className="inline-flex items-center gap-2 rounded-full border border-hairline px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/40 hover:bg-background"
+            >
+              返回文章列表
+            </Link>
+            {meta.tag && (
+              <div className="rounded-full bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
+                {meta.tag}
+              </div>
+            )}
+          </div>
         </header>
 
-        <div className="mt-12">
+        <div className="mt-12 rounded-[2rem] border border-hairline bg-background p-6 md:p-10">
           <Prose html={html} />
         </div>
+
+        <section className="mt-10 rounded-[2rem] border border-hairline bg-surface/30 p-6 md:p-8">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Continue Exploring
+              </div>
+              <h2 className="mt-3 font-display text-2xl font-normal text-foreground md:text-3xl">
+                喜欢这篇文章的话，也可以继续看下一篇。
+              </h2>
+            </div>
+            <Link
+              to="/writing"
+              className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              查看全部文章 →
+            </Link>
+          </div>
+        </section>
 
         <nav className="mt-20 grid grid-cols-1 gap-4 border-t border-hairline pt-10 md:grid-cols-2">
           {prev ? (
