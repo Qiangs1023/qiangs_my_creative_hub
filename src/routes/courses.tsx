@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Courses } from "@/components/Courses";
 import { Footer } from "@/components/Footer";
@@ -23,10 +23,12 @@ export const Route = createFileRoute("/courses")({
 });
 
 function CoursesPage() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isCourseIndex = pathname === "/courses";
   return (
     <main className="relative min-h-screen pt-20">
       <Nav />
-      <Courses />
+      {isCourseIndex ? <Courses /> : <Outlet />}
       <Footer />
     </main>
   );
